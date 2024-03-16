@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignorar arquivos do Docker
+Dockerfile.dev
+docker-compose.yaml
+
+# Ignorar arquivos do Postgresql
+data

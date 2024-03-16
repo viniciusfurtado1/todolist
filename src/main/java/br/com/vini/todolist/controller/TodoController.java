@@ -1,8 +1,11 @@
 package br.com.vini.todolist.controller;
 
+import br.com.vini.todolist.dto.TodoPostPutDto;
 import br.com.vini.todolist.entity.Todo;
 import br.com.vini.todolist.service.TodoService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,22 +21,27 @@ public class TodoController {
     }
 
     @PostMapping
-    List<Todo> create(@RequestBody @Valid Todo todo) {
-        return todoService.create(todo);
+    public ResponseEntity<List<Todo>> create(@RequestBody @Valid TodoPostPutDto todoPostPutDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.create(todoPostPutDto));
     }
 
     @GetMapping
-    List<Todo> list() {
-        return todoService.list();
+    public ResponseEntity<List<Todo>> list() {
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.list());
     }
 
-    @PutMapping
-    List<Todo> update(@RequestBody Todo todo) {
-        return todoService.update(todo);
+    @PutMapping("{id}")
+    public ResponseEntity<List<Todo>> update(@PathVariable Long id, @RequestBody @Valid TodoPostPutDto todoPostPutDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.update(id, todoPostPutDto));
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<List<Todo>> updateRealizado(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.updateRealizado(id));
     }
 
     @DeleteMapping("{id}")
-    List<Todo> delete(@PathVariable Long id) {
-        return todoService.delete(id);
+    public ResponseEntity<List<Todo>> delete(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(todoService.delete(id));
     }
 }

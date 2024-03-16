@@ -3,6 +3,8 @@ package br.com.vini.todolist.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "todos")
 public class Todo {
@@ -69,5 +71,19 @@ public class Todo {
 
     public void setPrioridade(int prioridade) {
         this.prioridade = prioridade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Todo todo = (Todo) o;
+        return realizado == todo.realizado && prioridade == todo.prioridade && Objects.equals(id, todo.id) &&
+                Objects.equals(nome, todo.nome) && Objects.equals(descricao, todo.descricao);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, descricao, realizado, prioridade);
     }
 }
